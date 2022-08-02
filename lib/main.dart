@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tajersho/core/theme/app_colors.dart';
 import 'package:tajersho/core/theme/app_fonts.dart';
 import 'package:tajersho/core/theme/app_theme.dart';
+import 'package:tajersho/data/models/core/user_model.dart';
 import 'package:widgets/app_button.dart';
 import 'package:widgets/text_input.dart';
 
@@ -12,7 +13,6 @@ void main() {
 class App extends StatelessWidget {
   App({Key? key}) : super(key: key);
   TextInputController _controller = TextInputController();
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
