@@ -1,4 +1,4 @@
-name: core
+name: vendor
 description: core plagain for flutter
 version: 1.0.0+1
 publish_to: none
@@ -7,14 +7,13 @@ environment:
   sdk: ">=2.16.0 <3.0.0"
 
 dependencies:
-  utils:
-    path: ../utils
+  core:
+    path: ../core
+
   retrofit: ^3.0.1+1
-  hive_flutter: ^1.1.0
 
 dev_dependencies:
   retrofit_generator: ^4.0.3
   json_serializable: ^6.3.1
   build_runner: ^2.2.0
-  hive_generator: ^1.1.3
 
