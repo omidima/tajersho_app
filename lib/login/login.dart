@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tajersho/login/cubit/login_cubit.dart';
 
 part 'cubit/login_view_model.dart';
 
@@ -10,7 +11,8 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  late _Controller _controller;
+  late final _Controller _controller;
+  late final LoginCubit _cubit = LoginCubit();
 
   @override
   void initState() {
