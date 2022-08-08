@@ -1,6 +1,5 @@
 import 'dart:async';
-
-import 'package:core/network/resource.dart';
+import 'package:utils/network/resource.dart';
 
 
 
