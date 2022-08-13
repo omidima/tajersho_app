@@ -7,7 +7,10 @@ class TextInputForm extends StatefulWidget {
   String title;
   String? errorMessage;
   Function(String number) onChange;
+  TextInputType type;
+  TextDirection textDirection;
   TextInputController controller;
+  bool isSecure;
 
   TextInputForm(
       {required this.title,
@@ -15,6 +18,9 @@ class TextInputForm extends StatefulWidget {
       this.errorMessage,
       required this.onChange,
       required this.controller,
+      this.type = TextInputType.text,
+      this.isSecure = false,
+      this.textDirection = TextDirection.ltr,
       Key? key})
       : super(key: key);
 
@@ -51,38 +57,54 @@ class _MyWidgetState extends State<TextInputForm> {
             decoration: BoxDecoration(boxShadow: [
               BoxShadow(blurRadius: 4, color: Color.fromARGB(6, 196, 196, 196))
             ]),
-            child: SizedBox(
-              height: 48,
-              child: TextFormField(
-                onChanged: (value) {
-                  widget.onChange(value);
-                },
-                decoration: InputDecoration(
-                    filled: true,
-                    contentPadding:
-                        EdgeInsets.symmetric(vertical: 0, horizontal: 12),
-                    fillColor: Colors.white,
-                    enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
-                        borderSide:
-                            BorderSide(color: Color(0xff2A5A50), width: 2)),
-                    focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
-                        borderSide:
-                            BorderSide(color: Color(0xff2A5A50), width: 2)),
-                    disabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
-                        borderSide:
-                            BorderSide(color: Color(0xff2A5A50), width: 2)),
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
-                        borderSide:
-                            BorderSide(color: Color(0xff2A5A50), width: 2)),
-                    hintText: widget.placeholder,
-                    errorText: widget.controller.hasError
-                        ? widget.errorMessage
-                        : null),
-              ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  height: 48,
+                  child: TextFormField(
+                    obscureText: widget.isSecure,
+                    keyboardType: widget.type,
+                    textDirection: widget.textDirection,
+                    onChanged: (value) {
+                      widget.onChange(value);
+                      widget.controller.text = value;
+                      widget.controller.changeText(value);
+                    },
+                    decoration: InputDecoration(
+                      hintTextDirection: widget.textDirection,
+                      filled: true,
+                      contentPadding:
+                          EdgeInsets.symmetric(vertical: 12, horizontal: 12),
+                      fillColor: Colors.white,
+                      enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                          borderSide:
+                              BorderSide(color: Color(0xff2A5A50), width: 2)),
+                      focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                          borderSide:
+                              BorderSide(color: Color(0xff2A5A50), width: 2)),
+                      disabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                          borderSide:
+                              BorderSide(color: Color(0xff2A5A50), width: 2)),
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                          borderSide:
+                              BorderSide(color: Color(0xff2A5A50), width: 2)),
+                      hintText: widget.placeholder,
+                    ),
+                  ),
+                ),
+                SizedBox(height: 8,),
+                widget.errorMessage != null
+                    ? Text(
+                        widget.errorMessage!,
+                        style: TextStyle(fontSize: 12, color: Colors.red),
+                      )
+                    : Container()
+              ],
             ),
           ),
         ],
@@ -92,10 +114,16 @@ class _MyWidgetState extends State<TextInputForm> {
 }
 
 class TextInputController extends ChangeNotifier {
+  String text = "";
   bool hasError = false;
 
   setError(bool state) {
     hasError = state;
+    this.notifyListeners();
+  }
+
+  changeText(String text) {
+    this.text = text;
     this.notifyListeners();
   }
 }
